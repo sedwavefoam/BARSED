@@ -1,6 +1,6 @@
 # BARSED
 SedWaveFoam case setup for sheet flow driven by velocity and acceleration skewed near-breaking waves on a sandbar
-(BARSED, details of physical experiment refer to Mieras et al., 2019, https://doi.org/10.1029/2018JC014564)
+(BARSED, details of physical experiment refer to Mieras et al., 2019, JGR:Oceans, https://doi.org/10.1029/2018JC014564)
 Modeling paper is published in Coastal Engineering (Kim et al., 2019, https://doi.org/10.1016/j.coastaleng.2019.103526)
 
 ### How to Simulate
