@@ -1,0 +1,101 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.7.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default         backward;
+    ddt(beta)	    Euler implicit;
+}
+
+gradSchemes
+{
+    default         Gauss linear;
+}
+
+divSchemes
+{
+    default         Gauss upwind;//linear;//none;
+    div(phirb,alpha1) Gauss upwind;//interfaceCompression;
+    div(phi,alpha1)  Gauss upwind;//limitedLinear 1;//limitedLinear01 1;
+    div(rhoPhi,Ub)  Gauss upwind;//limitedLinearV 1; // wave and YAR
+    div(phi,beta)   Gauss upwind;//limitedLinear 1;
+    div(phirb,beta)   Gauss upwind;//interfaceCompression;
+    div(phib,beta)  Gauss upwind;//limitedLinear 1;
+    div(phib,Ub)    Gauss upwind;//MUSCL;//limitedLinear 1;//upwind;//limitedLinearV 1;////thi term is problematic
+    div(phib)       Gauss upwind;//limitedLinear 1;//upwind;//MUSCL;//
+
+    div(phib,k)     Gauss upwind;//limitedLinear 1;
+    div(phib,epsilon) Gauss upwind;//limitedLinear 1;
+    div(phir,alpha) Gauss upwind;//limitedLinear01 1;
+    div(phia,Ua)    Gauss upwind;//limitedLinearV 1;
+    div(phiRa,Ua)    Gauss upwind;//limitedLinearV 1;
+    div(phiRb,Ub)    Gauss upwind;//limitedLinearV 1;
+    
+    div(phi,alpha)  Gauss limitedLinear01 1;
+    div(phi,Theta)  Gauss limitedLinear 1;
+    
+    div(alpha,nu)   Gauss linear;
+    div(Rca)        Gauss linear;
+    div(Rcb)        Gauss linear;
+    div((beta*Rcb)) Gauss linear;
+    div((alpha*Rca)) Gauss linear;
+    div((rho*Rcb))    Gauss linear;
+    div((rho*Rca))    Gauss linear;
+    div(((beta*nuEffb)*grad(Ub).T())) Gauss linear;
+    
+    div((muEffb*dev(T(grad(Ub)))))	Gauss linear 1; //YAR     
+    div(((max(alpha,alphaSmall)*nuFra)*grad(Ua).T())) Gauss linear;
+    div((((alpha+alphaSmall)*nuEffa)*grad(Ua).T())) Gauss linear;
+
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+    laplacian(nuEffa,Ua) Gauss linear corrected;
+    laplacian(nuEffb,Ub) Gauss linear corrected;
+    laplacian((rho*(1|A(U))),p) Gauss linear corrected;
+    laplacian(alphaPpMag,alpha) Gauss linear corrected;
+    laplacian(Galphaf,alpha) Gauss linear corrected;
+    laplacian(DkEff,k) Gauss linear corrected;
+    laplacian(DkEff,beta) Gauss linear corrected;
+    laplacian(DepsilonEff,epsilon) Gauss linear corrected;
+    laplacian(DepsilonEff,beta) Gauss linear corrected;
+    laplacian(kappa,Theta) Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default  linear;
+}
+
+snGradSchemes
+{
+    default         corrected;//limited corrected 0.5;
+}
+
+fluxRequired
+{
+    default         no;
+    beta	    ;
+    p_rgh           ;
+    alpha1          ;
+    pcorr           ;
+}
+
+
+// ************************************************************************* //

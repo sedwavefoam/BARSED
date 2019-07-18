@@ -1,0 +1,167 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.7.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(p|p_rgh)"
+    {
+        solver          GAMG;
+        tolerance       1e-11;
+        relTol          0;
+        smoother        DIC;
+        nPreSweeps      0;
+        nPostSweeps     2;
+        nFinestSweeps   2;
+        cacheAgglomeration true;
+        nCellsInCoarsestLevel 10;
+        agglomerator    faceAreaPair;
+        mergeLevels     1;
+    }
+    "(p|p_rgh)Final"
+    {
+        solver          GAMG;
+        tolerance       1e-11;
+        relTol          0;
+        smoother        DIC;
+        nPreSweeps      0;
+        nPostSweeps     2;
+        nFinestSweeps   2;
+        cacheAgglomeration true;
+        nCellsInCoarsestLevel 10;
+        agglomerator    faceAreaPair;
+        mergeLevels     1;
+    }
+
+    "(alpha1|beta)" 
+    {
+        nAlpha1Corr      2;
+        nBetaCorr	     2;
+        nAlpha1SubCycles 1;
+        nBetaSubCycles   1;
+        alpha1OuterCorrectors yes;
+        betaOuterCorrectors	yes;
+        cAlpha1          1;
+        cBeta		     1;
+        MULESCorr       yes;
+        nLimiterIter    3;
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-15;
+        relTol          0;
+    }
+    "(alpha1|beta)Final"
+    {
+        $alpha1;
+        tolerance       1e-15;
+        relTol          0;
+    }
+
+    /////////////////////////////////////////////////
+    "(k|epsilon).*"
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-12;
+        relTol          0;
+        nSweeps         1;
+    }
+    "(Ua|Ub)"
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-15;
+        relTol          0;
+        nSweeps         1;
+    }
+    "(Ua|Ub)Final"
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-15;
+        relTol          0;
+        nSweeps         1;
+    }
+
+    alpha
+    {
+/*
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-15;
+        relTol          0;
+*/  
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-15;
+        relTol          0;
+    }
+    alphaFinal
+    {
+/*
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-15;
+        relTol          0;
+*/
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-15;
+        relTol          0;
+    }
+ 
+    Theta
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-10;
+        relTol          0;
+        nSweeps         1;
+    }
+    ThetaFinal
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-15;
+        relTol          0;
+        nSweeps         1;
+        maxIter	        100;
+    }
+}
+
+PIMPLE
+{
+    nCorrectors     5;
+    nNonOrthogonalCorrectors 0;
+    nAlphaCorr      1;
+    nAlphaSubCycles 2;
+    cAlpha          1;
+    correctAlpha    yes;
+    momentumPredictor no;//yes;
+}
+SIMPLE
+{
+    nCorrectors     2;
+    nOuterCorrectors 2;
+    nNonOrthogonalCorrectors 0;
+    nAlphaCorr      2;
+    correctAlpha    yes;
+}
+
+ 
+
+
+// ************************************************************************* //
