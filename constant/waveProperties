@@ -1,0 +1,168 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.5                                   |
+|   \\  /    A nd           | Web:      http://www.OpenFOAM.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      environmentalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+timeShift       0.0;
+
+seaLevel	0.00;
+
+// A list of the relaxation zones in the simulation. The parameters are given in <name>Coeffs below.
+
+relaxationNames (inlet);//relaxationNames (inlet outlet);
+initializationName init;
+
+pName p_rgh;
+
+inletCoeffs
+{
+    waveType	streamFunction;
+    N		50;
+    depth	2.449000;
+    omega	0.897598;
+    phi		0.000000;
+    waveNumber	 (0.184139 0.0 0.0);
+    uBar	4.90836;
+    A		nonuniform List<scalar>	50
+    (
+        0.260188
+        0.104884
+        0.0354449
+        0.0115632
+        0.00383039
+        0.00130975
+        0.000463074
+        0.000168592
+        6.28619e-05
+        2.38896e-05
+        9.21869e-06
+        3.60211e-06
+        1.42223e-06
+        5.66526e-07
+        2.27392e-07
+        9.18772e-08
+        3.73395e-08
+        1.52535e-08
+        6.25992e-09
+        2.57965e-09
+        1.06701e-09
+        4.42841e-10
+        1.8436e-10
+        7.69667e-11
+        3.22169e-11
+        1.35114e-11
+        5.68474e-12
+        2.39842e-12
+        1.01022e-12
+        4.23871e-13
+        1.83417e-13
+        6.97399e-14
+        3.94304e-14
+        1.57149e-14
+        4.08118e-15
+        -4.40805e-15
+        6.37121e-15
+        1.0692e-15
+        -6.25746e-17
+        1.28114e-15
+        2.75706e-15
+        3.58988e-15
+        -2.6728e-15
+        7.10292e-15
+        6.29273e-15
+        -5.18751e-16
+        -2.11288e-15
+        -6.23029e-15
+        1.86385e-16
+        1.17083e-15
+    );
+    B		nonuniform List<scalar>	50
+    (
+        0.527284
+        0.217109
+        0.0693521
+        0.0183059
+        0.003867
+        0.00055274
+        -2.01917e-06
+        -3.44188e-05
+        -1.38065e-05
+        -3.35668e-06
+        -4.32645e-07
+        6.07659e-08
+        5.8872e-08
+        2.12503e-08
+        4.89083e-09
+        5.3819e-10
+        -1.36868e-10
+        -1.02088e-10
+        -3.47399e-11
+        -7.52039e-12
+        -6.22377e-13
+        3.08008e-13
+        1.87895e-13
+        5.35439e-14
+        3.82556e-14
+        -2.98926e-14
+        -1.63856e-14
+        4.64466e-14
+        -2.33255e-14
+        -6.19639e-15
+        1.38608e-14
+        -3.71074e-14
+        4.52691e-14
+        -3.97291e-15
+        -1.67347e-14
+        -7.47706e-15
+        3.65038e-14
+        -6.53332e-15
+        -5.83205e-14
+        4.66311e-14
+        1.41198e-14
+        -6.41863e-15
+        -3.38319e-14
+        4.33223e-14
+        -3.47101e-14
+        3.60608e-14
+        -1.70961e-14
+        -1.03805e-14
+        9.15954e-15
+        -1.86229e-15
+    );
+    
+    // Specifications on the relaxation zone shape and relaxation scheme
+    relaxationZone
+    {
+        relaxationScheme Spatial;
+        relaxationShape  Rectangular;
+        beachType        Empty;
+        relaxType   INLET;
+        startX      (-34.122 0.00 0);
+        endX        (0       1.70 0);
+        orientation      (1.0 0.0 0.0);
+        relaxationWeight Exponential;
+        exponent				 14;
+    }
+}
+
+initCoeffs
+{
+    waveType    potentialCurrent;
+    U           (0 0 0);
+    Tsoft        0;
+}
+
+
+
+// ************************************************************************* //
